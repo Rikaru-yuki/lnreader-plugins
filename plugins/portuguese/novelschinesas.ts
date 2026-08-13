@@ -8,7 +8,7 @@ import { NovelStatus } from '@libs/novelStatus';
 class NovelsChinesasPlugin implements Plugin.PluginBase {
   id = 'novelschinesas';
   name = 'Novels Chinesas';
-  icon = 'src/pt/novelschinesas/icon.png';
+  icon = 'src/pt-br/novelschinesas/icon.png';
   site = 'https://novelschinesas.com';
   version = '1.0.1';
   filters: Filters | undefined = undefined;
