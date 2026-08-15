@@ -10,7 +10,7 @@ class NovelsBRPlugin implements Plugin.PluginBase {
   name = 'Novels BR';
   icon = 'src/pt-br/novelsbr/icon.png';
   site = 'https://novels-br.com';
-  version = '1.0.3';
+  version = '1.0.4';
   filters: Filters | undefined = undefined;
 
   private months: Record<string, string> = {
@@ -136,16 +136,29 @@ class NovelsBRPlugin implements Plugin.PluginBase {
       ? NovelStatus.Completed
       : NovelStatus.Ongoing;
 
+    // Gêneros
     const genres: string[] = [];
+    const ignore = ['reporte um erro', 'bug', 'report', 'erro'];
+
     const h4 = $('h4').first().text() || '';
     h4.split(/[-–|/]/).forEach(g => {
       const t = g.trim();
-      if (t) genres.push(t);
+      if (t && !ignore.some(i => t.toLowerCase().includes(i))) {
+        genres.push(t);
+      }
     });
+
     $('a[href*="categoryId"]').each((_, el) => {
       const g = $(el).text().trim();
-      if (g && !genres.includes(g)) genres.push(g);
+      if (
+        g &&
+        !genres.includes(g) &&
+        !ignore.some(i => g.toLowerCase().includes(i))
+      ) {
+        genres.push(g);
+      }
     });
+
     if (genres.length) novel.genres = genres.join(', ');
 
     novel.summary =
